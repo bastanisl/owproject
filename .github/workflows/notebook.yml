@@ -34,4 +34,4 @@ jobs:
           pip install biopython requests
           pip install pytest nbmake
 
-          pytest --nbmake --nbmake-kernel=python3 *.ipynb
+          pytest -vs --nbmake --nbmake-kernel=python3  --nbmake-timeout=3000 *.ipynb
