@@ -31,7 +31,7 @@ jobs:
       - name: Test notebook
         run: |
           echo Testing notebook
-          pip install biopython
+          pip install biopython requests
           pip install pytest nbmake
 
           pytest --nbmake --nbmake-kernel=python3 *.ipynb
