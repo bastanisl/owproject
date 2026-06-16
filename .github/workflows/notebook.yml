@@ -21,17 +21,19 @@ jobs:
         python-version: [ "3.10", "3.12" ] 
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
       
       - name: Set up Python  ${{ matrix.python-version }}
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version:  ${{ matrix.python-version }}
 
       - name: Test notebook
+        env:
+           CI: "true"
         run: |
           echo Testing notebook
           pip install biopython requests
           pip install pytest nbmake
 
-          pytest -vs --nbmake --nbmake-kernel=python3  --nbmake-timeout=3000 *.ipynb
+          pytest -vs --nbmake --nbmake-kernel=python3  --nbmake-timeout=600 *.ipynb
