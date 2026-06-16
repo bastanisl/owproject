@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main", "development" ]
+  pull_request:
+    branches: [ "main", "development"  ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:        
+        runs-on: [ ubuntu-latest, macos-latest ]
+        python-version: [ "3.10", "3.12" ] 
+
+    steps:
+      - uses: actions/checkout@v6
+      
+      - name: Set up Python  ${{ matrix.python-version }}
+        uses: actions/setup-python@v6
+        with:
+          python-version:  ${{ matrix.python-version }}
+
+      - name: Test notebook
+        run: |
+          echo Testing notebook
+          pip install biopython requests
+          pip install pytest nbmake
+
+          pytest -vs --nbmake --nbmake-kernel=python3  --nbmake-timeout=3000 *.ipynb
